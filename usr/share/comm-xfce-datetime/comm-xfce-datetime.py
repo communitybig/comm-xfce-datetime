@@ -9,6 +9,7 @@ import threading
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, GLib, Gdk, Gio
 
+
 # Style Buttons
 css_provider = Gtk.CssProvider()
 css_provider.load_from_string(
@@ -20,9 +21,9 @@ Gtk.StyleContext.add_provider_for_display(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-# Suporte a tradução
-APP_NAME = "datetime_tool"
-LOCALE_DIR = os.path.join(os.path.dirname(__file__), "locales")
+# Translation support
+APP_NAME = "comm-xfce-datetime"
+LOCALE_DIR = "/usr/share/locale"
 gettext.bindtextdomain(APP_NAME, LOCALE_DIR)
 gettext.textdomain(APP_NAME)
 _ = gettext.gettext
@@ -31,10 +32,11 @@ _ = gettext.gettext
 class DateTimeApp(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app)
-        self.set_title(_("Configurações de Data e Hora"))
+        self.set_title(_("Date and Time Settings"))
         self.set_default_size(500, 400)
+        self.search_query = ""
 
-        # Layout principal
+        # Main layout
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         vbox.set_margin_start(10)
         vbox.set_margin_end(10)
@@ -42,8 +44,8 @@ class DateTimeApp(Gtk.ApplicationWindow):
         vbox.set_margin_bottom(10)
         self.set_child(vbox)
 
-        # Grupo de data
-        frame_date = Gtk.Frame(label=_("Selecione a data"))
+        # Date group
+        frame_date = Gtk.Frame(label=_("Select Date"))
         frame_date.set_label_align(0.5)
         date_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         date_box.set_margin_start(10)
@@ -55,8 +57,8 @@ class DateTimeApp(Gtk.ApplicationWindow):
         frame_date.set_child(date_box)
         vbox.append(frame_date)
 
-        # Grupo de hora
-        frame_time = Gtk.Frame(label=_("Ajuste o horário"))
+        # Time group
+        frame_time = Gtk.Frame(label=_("Adjust Time"))
         frame_time.set_label_align(0.5)
         time_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         time_box.set_halign(Gtk.Align(3))
@@ -67,25 +69,24 @@ class DateTimeApp(Gtk.ApplicationWindow):
         self.hour_spinner = Gtk.SpinButton.new_with_range(0, 23, 1)
         self.minute_spinner = Gtk.SpinButton.new_with_range(0, 59, 1)
         self.set_initial_time()
-        time_box.append(Gtk.Label(label=_("Hora:")))
+        time_box.append(Gtk.Label(label=_("Hour:")))
         time_box.append(self.hour_spinner)
-        time_box.append(Gtk.Label(label=_("Minuto:")))
+        time_box.append(Gtk.Label(label=_("Minute:")))
         time_box.append(self.minute_spinner)
         frame_time.set_child(time_box)
         vbox.append(frame_time)
 
-        # Grupo de fuso horário
-        frame_timezone = Gtk.Frame(label=_("Selecione o fuso horário"))
+        # Timezone group
+        frame_timezone = Gtk.Frame(label=_("Select Timezone"))
         frame_timezone.set_label_align(0.5)
-        self.search_query = ""
         frame_timezone.set_child(self.create_filtered_timezone_dropdown())
         vbox.append(frame_timezone)
 
-        # Criando a opção de ativar/desativar a sincronização automática
+        # Create option to enable/disable automatic synchronization
         self.ntp_checkbox = Gtk.CheckButton(
-            label=_("Ativar sincronização automática")
+            label=_("Enable Automatic Synchronization")
         )
-        # Estado inicial
+        # Initial state
         self.ntp_checkbox.set_active(self.is_ntp_enabled())
         self.ntp_toggle_lock = False
         self.ntp_checkbox.connect("toggled", self.on_ntp_toggled)
@@ -95,19 +96,19 @@ class DateTimeApp(Gtk.ApplicationWindow):
         self.sync_label.set_visible(True)
         vbox.append(self.sync_label)
 
-        # Botões
+        # Buttons
         hbox_buttons = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
             spacing=10
         )
         hbox_buttons.set_halign(Gtk.Align(3))
-        save_button = Gtk.Button(label=_("Aplicar"))
+        save_button = Gtk.Button(label=_("Apply"))
         save_button.set_css_classes(['blue'])
         save_button.connect("clicked", self.on_save_clicked)
-        cancel_button = Gtk.Button(label=_("Cancelar"))
+        cancel_button = Gtk.Button(label=_("Cancel"))
         cancel_button.set_css_classes(['red'])
         cancel_button.connect("clicked", self.on_cancel_clicked)
-        sync_button = Gtk.Button(label=_("Sincronizar"))
+        sync_button = Gtk.Button(label=_("Synchronize"))
         sync_button.connect("clicked", self.on_sync_clicked)
         hbox_buttons.append(cancel_button)
         hbox_buttons.append(sync_button)
@@ -115,7 +116,7 @@ class DateTimeApp(Gtk.ApplicationWindow):
         vbox.append(hbox_buttons)
 
     def is_ntp_enabled(self):
-        """Verifica se o serviço de sincronização automática está ativo."""
+        """Check if automatic synchronization service is active."""
         try:
             result = subprocess.run(
                 ["timedatectl", "show", "--property=NTP"],
@@ -126,17 +127,17 @@ class DateTimeApp(Gtk.ApplicationWindow):
             return False
 
     def on_ntp_toggled(self, button):
-        """Ativa ou desativa a sincronização automática"""
-        if self.ntp_toggle_lock:  # Evita loop
+        """Enable or disable automatic synchronization"""
+        if self.ntp_toggle_lock:  # Avoid loop
             return
 
         self.ntp_toggle_lock = True
 
         new_state = "true" if button.get_active() else "false"
         if new_state == "true":
-            msg = _("Sincronização automática ativada.")
+            msg = _("Auto synchronization enabled.")
         else:
-            msg = _("Sincronização automática desativada.")
+            msg = _("Auto synchronization disabled.")
 
         try:
             self.run_command(["pkexec", "timedatectl", "set-ntp", new_state])
@@ -156,19 +157,20 @@ class DateTimeApp(Gtk.ApplicationWindow):
             self.ntp_toggle_lock = False
 
     def set_initial_time(self):
-        """Define a hora inicial com base no horário atual do sistema."""
+        """Set initial time based on the system's current time."""
         now = datetime.datetime.now()
         self.hour_spinner.set_value(now.hour)
         self.minute_spinner.set_value(now.minute)
 
     def create_filtered_timezone_dropdown(self):
-        """Cria um dropdown de fusos horários com filtro."""
-        # Modelo base para os fusos horários
+        """Create a timezone dropdown with filter."""
+        # Base model for timezones
         self.timezone_model = Gio.ListStore.new(Gtk.StringObject)
         for tz in pytz.all_timezones:
-            self.timezone_model.append(Gtk.StringObject.new(tz))
+            item = Gtk.StringObject.new(tz)
+            self.timezone_model.append(item)
 
-        # Filtro
+        # Filter
         self.filter = Gtk.CustomFilter.new(self.filter_timezones, None)
         self.filter_model = Gtk.FilterListModel.new(self.timezone_model, self.filter)
         self.filter_model.set_filter(self.filter)
@@ -177,12 +179,12 @@ class DateTimeApp(Gtk.ApplicationWindow):
         self.timezone_dropdown = Gtk.DropDown(model=self.filter_model)
         self.timezone_dropdown.set_hexpand(True)
 
-        # Campo de busca
-        self.search_entry = Gtk.Entry(placeholder_text=_("Pesquisar..."))
+        # Search field
+        self.search_entry = Gtk.Entry(placeholder_text=_("Search..."))
         self.search_entry.set_width_chars(15)
         self.search_entry.connect("changed", self.on_search_entry_changed)
 
-        # Contêiner
+        # Container
         timezone_box = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
             spacing=10
@@ -198,24 +200,24 @@ class DateTimeApp(Gtk.ApplicationWindow):
         return timezone_box
 
     def filter_timezones(self, item, _):
-        """Filtro personalizado para buscar fusos horários."""
-        if not isinstance(item, Gtk.StringObject):
-            return False
-
+        """Custom filter to search timezones."""
         query = self.search_query.lower()
-        return query in item.get_string().lower()
+        timezone_str = item.get_string().lower()
+        print(f"{timezone_str}")
+        return str(query) in timezone_str
 
     def on_search_entry_changed(self, entry):
-        """Atualiza o filtro quando o texto de busca muda."""
+        """Update filter when search text changes."""
         self.search_query = entry.get_text().strip()
-        self.filter.changed(Gtk.FilterChange.DIFFERENT)
+        if self.filter:
+            self.filter.changed(Gtk.FilterChange.DIFFERENT)
 
     def on_save_clicked(self, button):
-        """Confirmação antes de aplicar as configurações."""
+        """Confirmation before applying settings."""
         try:
-            # Obtém os valores selecionados
+            # Get selected values
             day = self.calendar.props.day
-            month = self.calendar.props.month + 1  # Mês começa em 0
+            month = self.calendar.props.month + 1  # Month starts at 0
             year = self.calendar.props.year
             hour = self.hour_spinner.get_value_as_int()
             minute = self.minute_spinner.get_value_as_int()
@@ -223,22 +225,22 @@ class DateTimeApp(Gtk.ApplicationWindow):
             timezone = active_item.get_string() if active_item else None
 
             if not timezone:
-                raise ValueError(_("Nenhum fuso horário selecionado."))
+                raise ValueError(_("No timezone selected."))
 
             date_str = f"{year}-{month:02}-{day:02}"
             time_str = f"{hour:02}:{minute:02}:00"
             date_str_inverted = f"{day:02}-{month:02}-{year}"
 
-            # Mensagem de confirmação
+            # Confirmation message
             confirm_msg = _(
-                "As seguintes configurações serão aplicadas:\n\n"
-                "Data: {}\n"
-                "Hora: {}\n"
-                "Fuso horário: {}\n\n"
-                "Deseja continuar?"
+                "The following settings will be applied:\n\n"
+                "Date: {}\n"
+                "Time: {}\n"
+                "Timezone: {}\n\n"
+                "Do you want to continue?"
             ).format(date_str_inverted, time_str, timezone)
 
-            # Criando o diálogo
+            # Create dialog
             dialog = Gtk.MessageDialog(
                 transient_for=self,
                 modal=True,
@@ -247,7 +249,7 @@ class DateTimeApp(Gtk.ApplicationWindow):
                 text=confirm_msg
             )
 
-            # Conectando o sinal para capturar a resposta do usuário
+            # Connect signal to capture user response
             dialog.connect(
                 "response", self.on_confirm_response,
                 date_str, time_str, timezone
@@ -261,7 +263,7 @@ class DateTimeApp(Gtk.ApplicationWindow):
         self, dialog, response,
         date_str, time_str, timezone
     ):
-        """Executa as configurações se o usuário confirmar no diálogo."""
+        """Apply settings if user confirms in the dialog."""
         if response == Gtk.ResponseType.DELETE_EVENT:
             return
 
@@ -275,20 +277,20 @@ class DateTimeApp(Gtk.ApplicationWindow):
                 ])
                 self.show_message_dialog(
                     Gtk.MessageType.INFO,
-                    _("Configurações aplicadas com sucesso!")
+                    _("Settings applied successfully!")
                 )
             except Exception as e:
                 self.show_message_dialog(Gtk.MessageType.ERROR, str(e))
 
     def on_cancel_clicked(self, button):
-        """Fecha o aplicativo sem alterar nada."""
+        """Close the application without making any changes."""
         self.get_application().quit()
 
     def on_sync_clicked(self, button):
-        """Sincroniza com a Internet utilizando ntpd e exibe uma mensagem."""
-        button.set_sensitive(False)  # Desativa o botão durante a sincronização
+        """Synchronize with the Internet using ntpd and display a message."""
+        button.set_sensitive(False)  # Disable button during synchronization
         self.sync_label.set_markup(
-            "<i>" + _("Aguarde, sincronizando...") + "</i>"
+            "<i>" + _("Please wait, synchronizing...") + "</i>"
         )
 
         def sync_thread():
@@ -303,7 +305,7 @@ class DateTimeApp(Gtk.ApplicationWindow):
                     GLib.idle_add(
                         self.show_message_dialog,
                         Gtk.MessageType.INFO,
-                        _("Sincronização concluída com sucesso!")
+                        _("Synchronization completed successfully!")
                     )
             except Exception as e:
                 GLib.idle_add(
@@ -318,13 +320,13 @@ class DateTimeApp(Gtk.ApplicationWindow):
         threading.Thread(target=sync_thread, daemon=True).start()
 
     def run_command(self, command):
-        """Executa um comando no shell"""
+        """Run a command in the shell"""
         result = subprocess.run(command, capture_output=True, text=True)
         if result.returncode != 0:
             raise RuntimeError(result.stderr.strip())
 
     def show_message_dialog(self, message_type, message):
-        """Exibe uma caixa de diálogo com uma mensagem."""
+        """Display a dialog with a message."""
         dialog = Gtk.MessageDialog(
             transient_for=self,
             modal=True,
