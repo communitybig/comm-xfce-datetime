@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=XFCE DateTime Tool
+Comment=XFCE DateTime Tool is a GTK4 app to manage system time, date and time zones
+Exec=comm-xfce-datetime
+Icon=time
+Terminal=false
+Categories=Settings;DesktopSettings;X-XFCE;X-Xfce-Toplevel;
+OnlyShowIn=XFCE;
