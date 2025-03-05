@@ -203,7 +203,6 @@ class DateTimeApp(Gtk.ApplicationWindow):
         """Custom filter to search timezones."""
         query = self.search_query.lower()
         timezone_str = item.get_string().lower()
-        print(f"{timezone_str}")
         return str(query) in timezone_str
 
     def on_search_entry_changed(self, entry):
