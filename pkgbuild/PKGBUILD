@@ -7,7 +7,6 @@ depends=(
     'python>=3.9'
     'python-pytz'
     'gtk4'
-    'gettext'
 )
 #makedepends=('')
 #optdepends=('')
