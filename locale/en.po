@@ -1,90 +1,120 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the comm-xfce-datetime package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-msgid   ""
-msgstr  "Project-Id-Version: PACKAGE VERSION\n"
-        "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-        "Language-Team: LANGUAGE <LL@li.org>\n"
-        "MIME-Version: 1.0\n"
-        "Content-Type: text/plain; charset=UTF-8\n"
-        "Content-Transfer-Encoding: 8bit\n"
-        "Generated-By: pygettext.py 1.5\n"
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: comm-xfce-datetime\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 35
-msgid   "Date and Time Settings"
-msgstr  ""
+msgid "Date and Time Settings"
+msgstr "Date and Time Settings"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 48
-msgid   "Select Date"
-msgstr  ""
+msgid "Select Date"
+msgstr "Select Date"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 61
-msgid   "Adjust Time"
-msgstr  ""
+msgid "Adjust Time"
+msgstr "Adjust Time"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 72
-msgid   "Hour:"
-msgstr  ""
+msgid "Hour:"
+msgstr "Hour:"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 74
-msgid   "Minute:"
-msgstr  ""
+msgid "Minute:"
+msgstr "Minute:"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 80
-msgid   "Select Timezone"
-msgstr  ""
+msgid "Select Timezone"
+msgstr "Select Timezone"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 87
-msgid   "Enable Automatic Synchronization"
-msgstr  ""
+msgid "Enable Automatic Synchronization"
+msgstr "Enable Automatic Synchronization"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 105
-msgid   "Apply"
-msgstr  ""
+msgid "Apply"
+msgstr "Apply"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 108
-msgid   "Cancel"
-msgstr  ""
+msgid "Cancel"
+msgstr "Cancel"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 111
-msgid   "Synchronize"
-msgstr  ""
+msgid "Synchronize"
+msgstr "Synchronize"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 138
-msgid   "Auto synchronization enabled."
-msgstr  ""
+msgid "Auto synchronization enabled."
+msgstr "Auto synchronization enabled."
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 140
-msgid   "Auto synchronization disabled."
-msgstr  ""
+msgid "Auto synchronization disabled."
+msgstr "Auto synchronization disabled."
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 183
-msgid   "Search..."
-msgstr  ""
+msgid "Search..."
+msgstr "Search..."
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 228
-msgid   "No timezone selected."
-msgstr  ""
+msgid "No timezone selected."
+msgstr "No timezone selected."
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 235
-msgid   "The following settings will be applied:\n"
-        "\n"
-        "Date: {}\n"
-        "Time: {}\n"
-        "Timezone: {}\n"
-        "\n"
-        "Do you want to continue?"
-msgstr  ""
+msgid ""
+"The following settings will be applied:\n"
+"\n"
+"Date: {}\n"
+"Time: {}\n"
+"Timezone: {}\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"The following settings will be applied:\n"
+"\n"
+"Date: {}\n"
+"Time: {}\n"
+"Timezone: {}\n"
+"\n"
+"Do you want to continue?"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 280
-msgid   "Settings applied successfully!"
-msgstr  ""
+msgid "Settings applied successfully!"
+msgstr "Settings applied successfully!"
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 293
-msgid   "Please wait, synchronizing..."
-msgstr  ""
+msgid "Please wait, synchronizing..."
+msgstr "Please wait, synchronizing..."
+
 #
 # File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 308
-msgid   "Synchronization completed successfully!"
-msgstr  ""
+msgid "Synchronization completed successfully!"
+msgstr "Synchronization completed successfully!"
