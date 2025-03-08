@@ -22,12 +22,13 @@ Gtk.StyleContext.add_provider_for_screen(
     Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-# Translation support
-APP_NAME = "comm-xfce-datetime"
-LOCALE_DIR = "/usr/share/locale"
-gettext.bindtextdomain(APP_NAME, LOCALE_DIR)
-gettext.textdomain(APP_NAME)
-_ = gettext.gettext
+# Translation support - Implementação melhorada
+lang_translations = gettext.translation(
+    "comm-xfce-datetime", localedir="/usr/share/locale", fallback=True
+)
+lang_translations.install()
+# define _ shortcut for translations
+_ = lang_translations.gettext
 
 
 class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
