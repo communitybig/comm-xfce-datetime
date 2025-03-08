@@ -471,3 +471,36 @@ msgstr "UTC"
 #: NEEDS WORK
 msgid "Synchronization failed."
 msgstr "Η συγχρονισμός απέτυχε."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 643
+#: NEEDS WORK
+msgid "Applying settings..."
+msgstr "Εφαρμογή ρυθμίσεων..."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 700
+#: NEEDS WORK
+msgid ""
+"Settings have been applied successfully!\n"
+"\n"
+"The new timezone is now active for system services and new applications. Some running applications "
+"may need to be restarted to use the new timezone settings."
+msgstr ""
+"Οι ρυθμίσεις εφαρμόστηκαν με επιτυχία!\n"
+"\n"
+"Η νέα ζώνη ώρας είναι τώρα ενεργή για τις υπηρεσίες συστήματος και τις νέες εφαρμογές. Ορισμένες "
+"τρέχουσες εφαρμογές ενδέχεται να χρειαστεί να επανεκκινηθούν για να χρησιμοποιήσουν τις νέες "
+"ρυθμίσεις ζώνης ώρας."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 761
+#: NEEDS WORK
+msgid "Permission denied. Please provide administrator password when prompted."
+msgstr "Άρνηση άδειας. Παρακαλώ δώστε τον κωδικό πρόσβασης διαχειριστή όταν σας ζητηθεί."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 763
+#: NEEDS WORK
+msgid "Command failed"
+msgstr "Η εντολή απέτυχε"

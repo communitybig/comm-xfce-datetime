@@ -636,3 +636,35 @@ msgstr "UTC"
 #: NEEDS WORK
 msgid "Synchronization failed."
 msgstr "סנכרון נכשל."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 643
+#: NEEDS WORK
+msgid "Applying settings..."
+msgstr "מיישם הגדרות..."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 700
+#: NEEDS WORK
+msgid ""
+"Settings have been applied successfully!\n"
+"\n"
+"The new timezone is now active for system services and new applications. Some running applications "
+"may need to be restarted to use the new timezone settings."
+msgstr ""
+"הגדרות הוחלו בהצלחה!\n"
+"\n"
+"אזור הזמן החדש פעיל כעת עבור שירותי המערכת ויישומים חדשים. ייתכן שחלק מהיישומים הפועלים יצטרכו "
+"להיפתח מחדש כדי להשתמש בהגדרות אזור הזמן החדשות."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 761
+#: NEEDS WORK
+msgid "Permission denied. Please provide administrator password when prompted."
+msgstr "גישה נדחתה. אנא ספק סיסמת מנהל כאשר תתבקש."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 763
+#: NEEDS WORK
+msgid "Command failed"
+msgstr "הפקודה נכשלה"

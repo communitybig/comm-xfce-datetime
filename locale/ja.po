@@ -636,3 +636,34 @@ msgstr "協定世界時"
 #: NEEDS WORK
 msgid "Synchronization failed."
 msgstr "同期に失敗しました。"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 643
+#: NEEDS WORK
+msgid "Applying settings..."
+msgstr "設定を適用中..."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 700
+#: NEEDS WORK
+msgid ""
+"Settings have been applied successfully!\n"
+"\n"
+"The new timezone is now active for system services and new applications. Some running applications "
+"may need to be restarted to use the new timezone settings."
+msgstr ""
+"設定が正常に適用されました！\n"
+"\n"
+"新しいタイムゾーンがシステムサービスと新しいアプリケーションに対して有効になりました。一部の実行中のアプリケーションは、新しいタイムゾーン設定を使用するために再起動が必要になる場合があります。"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 761
+#: NEEDS WORK
+msgid "Permission denied. Please provide administrator password when prompted."
+msgstr "アクセスが拒否されました。プロンプトが表示されたときに管理者パスワードを入力してください。"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 763
+#: NEEDS WORK
+msgid "Command failed"
+msgstr "コマンドが失敗しました"
