@@ -5,6 +5,7 @@ import gettext
 import datetime
 import threading
 import re
+import time
 
 gi.require_version("Gtk", "3.0")  # Mudado para GTK3
 from gi.repository import Gtk, GLib, Gdk
@@ -633,6 +634,20 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
         
         if response == Gtk.ResponseType.YES:
             try:
+                # Show progress dialog
+                progress_dialog = Gtk.MessageDialog(
+                    parent=self,
+                    flags=Gtk.DialogFlags.MODAL,
+                    type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.NONE,
+                    message_format=_("Applying settings...")
+                )
+                progress_dialog.show_all()
+                
+                # Process all events to show dialog
+                while Gtk.events_pending():
+                    Gtk.main_iteration()
+                
                 # Set hardware clock mode
                 local_rtc = "false" if use_utc else "true"
                 self.run_command(["pkexec", "timedatectl", "set-local-rtc", local_rtc])
@@ -646,9 +661,46 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
                         "pkexec", "timedatectl", "set-time",
                         f"{date_str} {time_str}"
                     ])
+                
+                # Apply TZ to current session
+                os.environ['TZ'] = timezone
+                time.tzset()
+                
+                # Update session environment using dbus for all applications
+                try:
+                    self.run_command([
+                        "dbus-send", "--session", "--dest=org.freedesktop.DBus", 
+                        "--type=method_call", "--print-reply", "/org/freedesktop/DBus", 
+                        "org.freedesktop.DBus.UpdateActivationEnvironment", 
+                        f"array:string:TZ={timezone}"
+                    ])
+                except Exception:
+                    # Don't interrupt if it fails, just continue
+                    pass
+                
+                # Export TZ to XDG runtime dir to ensure new applications have the setting
+                runtime_dir = os.environ.get('XDG_RUNTIME_DIR', f"/run/user/{os.getuid()}")
+                if os.path.exists(runtime_dir):
+                    try:
+                        with open(f"{runtime_dir}/environment.d/50-timezone.conf", "w") as f:
+                            f.write(f"TZ={timezone}\n")
+                    except Exception:
+                        # Don't interrupt if it fails
+                        pass
+                
+                # Close progress dialog
+                progress_dialog.destroy()
                     
                 self.update_current_timezone_label()
                 self.status_label.set_markup("<i>" + _("Status:") + "</i> " + _("Settings applied successfully!"))
+                
+                # Show success message with important information
+                self.show_message_dialog(
+                    Gtk.MessageType.INFO, 
+                    _("Settings have been applied successfully!\n\n"
+                      "The new timezone is now active for system services and new applications. "
+                      "Some running applications may need to be restarted to use the new timezone settings.")
+                )
             except Exception as e:
                 self.show_message_dialog(Gtk.MessageType.ERROR, str(e))
 
@@ -692,10 +744,23 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
         threading.Thread(target=sync_thread, daemon=True).start()
 
     def run_command(self, command):
-        """Run a command in the shell"""
-        result = subprocess.run(command, capture_output=True, text=True)
-        if result.returncode != 0:
-            raise RuntimeError(result.stderr.strip())
+        """Run a command in the shell with better error handling"""
+        try:
+            # Use check=True to raise an exception in case of error
+            result = subprocess.run(
+                command, 
+                capture_output=True, 
+                text=True, 
+                check=True
+            )
+            return result.stdout.strip()
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.strip() if e.stderr else str(e)
+            # Check if it's an authorization error
+            if "polkit" in error_msg.lower() or "authentication" in error_msg.lower():
+                raise RuntimeError(_("Permission denied. Please provide administrator password when prompted."))
+            else:
+                raise RuntimeError(f"{_('Command failed')}: {error_msg}")
 
     def show_message_dialog(self, message_type, message):
         """Display a dialog with a message."""
