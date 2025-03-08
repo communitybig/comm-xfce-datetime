@@ -636,3 +636,35 @@ msgstr "UTC"
 #: NEEDS WORK
 msgid "Synchronization failed."
 msgstr "Szinkronizálás nem sikerült."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 643
+#: NEEDS WORK
+msgid "Applying settings..."
+msgstr "Beállítások alkalmazása..."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 700
+#: NEEDS WORK
+msgid ""
+"Settings have been applied successfully!\n"
+"\n"
+"The new timezone is now active for system services and new applications. Some running applications "
+"may need to be restarted to use the new timezone settings."
+msgstr ""
+"A beállítások sikeresen alkalmazva lettek!\n"
+"\n"
+"Az új időzóna mostantól aktív a rendszer szolgáltatásai és az új alkalmazások számára. Néhány futó "
+"alkalmazást újra kell indítani az új időzóna-beállítások használatához."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 761
+#: NEEDS WORK
+msgid "Permission denied. Please provide administrator password when prompted."
+msgstr "Hozzáférés megtagadva. Kérjük, adja meg a rendszergazda jelszavát, amikor arra kérik."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 763
+#: NEEDS WORK
+msgid "Command failed"
+msgstr "Parancs nem sikerült"

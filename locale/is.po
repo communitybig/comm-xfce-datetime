@@ -636,3 +636,35 @@ msgstr "UTC"
 #: NEEDS WORK
 msgid "Synchronization failed."
 msgstr "Samþætting mistókst."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 643
+#: NEEDS WORK
+msgid "Applying settings..."
+msgstr "Beita stillingum..."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 700
+#: NEEDS WORK
+msgid ""
+"Settings have been applied successfully!\n"
+"\n"
+"The new timezone is now active for system services and new applications. Some running applications "
+"may need to be restarted to use the new timezone settings."
+msgstr ""
+"Stillingar hafa verið beittar með góðum árangri!\n"
+"\n"
+"Nýja tímabeltið er nú virkt fyrir kerfisþjónustu og nýjar forrit. Sum keyrandi forrit gætu þurft að "
+"vera endurræst til að nota nýju tímabeltisstillingarnar."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 761
+#: NEEDS WORK
+msgid "Permission denied. Please provide administrator password when prompted."
+msgstr "Aðgangur hafnað. Vinsamlegast sláðu inn stjórnanda lykilorð þegar beðið er um það."
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 763
+#: NEEDS WORK
+msgid "Command failed"
+msgstr "Skipun mistókst"
