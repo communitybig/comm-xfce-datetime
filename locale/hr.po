@@ -668,3 +668,9 @@ msgstr "Pristup odbijen. Molimo unesite administratorsku lozinku kada se zatraž
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Naredba nije uspjela"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Neki naredbe nisu uspjele. Provjerite sistemske dnevnike za detalje."

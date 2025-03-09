@@ -833,3 +833,9 @@ msgstr "İzin reddedildi. Lütfen istendiğinde yönetici şifresini girin."
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Komut başarısız oldu"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Bazı komutlar başarısız oldu. Ayrıntılar için sistem günlüklerini kontrol edin."

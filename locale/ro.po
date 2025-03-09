@@ -833,3 +833,9 @@ msgstr "Permisiune refuzată. Vă rugăm să furnizați parola de administrator 
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Comandă eșuată"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Unele comenzi au eșuat. Verificați jurnalele de sistem pentru detalii."

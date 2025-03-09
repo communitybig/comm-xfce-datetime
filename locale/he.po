@@ -668,3 +668,9 @@ msgstr "גישה נדחתה. אנא ספק סיסמת מנהל כאשר תתבק
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "הפקודה נכשלה"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "כמה פקודות נכשלו. בדוק את יומני המערכת לפרטים."

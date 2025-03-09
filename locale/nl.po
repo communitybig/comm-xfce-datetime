@@ -669,3 +669,9 @@ msgstr "Toegang geweigerd. Geef het beheerderswachtwoord op wanneer daarom wordt
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Opdracht mislukt"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Sommige opdrachten zijn mislukt. Controleer de systeemlogboeken voor details."

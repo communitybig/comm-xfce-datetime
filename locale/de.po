@@ -506,3 +506,9 @@ msgstr ""
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Befehl fehlgeschlagen"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Einige Befehle sind fehlgeschlagen. Überprüfen Sie die Systemprotokolle auf Details."

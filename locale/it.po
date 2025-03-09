@@ -669,3 +669,9 @@ msgstr "Accesso negato. Fornire la password di amministratore quando richiesto."
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Comando non riuscito"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Alcuni comandi non sono riusciti. Controlla i registri di sistema per ulteriori dettagli."

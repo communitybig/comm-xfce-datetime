@@ -504,3 +504,9 @@ msgstr "Accès refusé. Veuillez fournir le mot de passe administrateur lorsque 
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Commande échouée"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Certaines commandes ont échoué. Vérifiez les journaux système pour plus de détails."

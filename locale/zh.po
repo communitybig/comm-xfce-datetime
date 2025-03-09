@@ -832,3 +832,9 @@ msgstr "权限被拒绝。请在提示时提供管理员密码。"
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "命令失败"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "某些命令失败。请检查系统日志以获取详细信息。"

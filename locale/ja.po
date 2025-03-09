@@ -667,3 +667,9 @@ msgstr "アクセスが拒否されました。プロンプトが表示された
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "コマンドが失敗しました"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "いくつかのコマンドが失敗しました。詳細についてはシステムログを確認してください。"

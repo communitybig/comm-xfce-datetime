@@ -504,3 +504,9 @@ msgstr "Käyttöoikeus evätty. Anna järjestelmänvalvojan salasana, kun sitä 
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Komento epäonnistui"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Jotkin komennot epäonnistuivat. Tarkista järjestelmälokit saadaksesi lisätietoja."

@@ -833,3 +833,9 @@ msgstr "Prístup zamietnutý. Prosím, zadajte heslo správcu, keď budete vyzva
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Príkaz zlyhal"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Niektoré príkazy zlyhali. Skontrolujte systémové protokoly pre podrobnosti."

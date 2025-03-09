@@ -668,3 +668,9 @@ msgstr "Tillatelse nektet. Vennligst oppgi administratorpassord når du blir bed
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Kommando mislyktes"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Noen kommandoer feilet. Sjekk systemlogger for detaljer."
