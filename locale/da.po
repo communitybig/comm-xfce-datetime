@@ -503,3 +503,9 @@ msgstr "Adgang nægtet. Angiv venligst administratoradgangskoden, når du bliver
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Kommando mislykkedes"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Nogle kommandoer mislykkedes. Tjek systemlogfilerne for detaljer."

@@ -504,3 +504,9 @@ msgstr "Άρνηση άδειας. Παρακαλώ δώστε τον κωδικ
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Η εντολή απέτυχε"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Ορισμένες εντολές απέτυχαν. Ελέγξτε τα αρχεία καταγραφής του συστήματος για λεπτομέρειες."

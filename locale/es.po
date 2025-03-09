@@ -504,3 +504,9 @@ msgstr "Permiso denegado. Proporcione la contraseña de administrador cuando se 
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Comando fallido"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Algunos comandos fallaron. Verifique los registros del sistema para más detalles."

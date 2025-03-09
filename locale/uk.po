@@ -833,3 +833,9 @@ msgstr "Доступ заборонено. Будь ласка, надайте �
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Команда не вдалася"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Деякі команди не вдалися. Перевірте системні журнали для отримання деталей."

@@ -668,3 +668,9 @@ msgstr "Aðgangur hafnað. Vinsamlegast sláðu inn stjórnanda lykilorð þegar
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Skipun mistókst"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Sumar skipti mistókst. Athugaðu kerfisloggana fyrir frekari upplýsingar."

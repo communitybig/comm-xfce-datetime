@@ -503,3 +503,9 @@ msgstr "Odmítnuto. Zadejte prosím heslo správce, když budete vyzváni."
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Příkaz selhal"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Některé příkazy selhaly. Zkontrolujte systémové protokoly pro podrobnosti."

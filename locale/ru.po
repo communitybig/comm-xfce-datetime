@@ -833,3 +833,9 @@ msgstr "Доступ запрещен. Пожалуйста, введите па
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Команда не выполнена"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Некоторые команды не выполнены. Проверьте системные журналы для получения подробной информации."

@@ -669,3 +669,9 @@ msgstr "Odmowa dostępu. Proszę podać hasło administratora, gdy zostanie o to
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Polecenie nie powiodło się"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Niektóre polecenia nie powiodły się. Sprawdź dzienniki systemowe, aby uzyskać szczegóły."

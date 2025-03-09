@@ -833,3 +833,9 @@ msgstr "Åtkomst nekad. Vänligen ange administratörslösenordet när du uppman
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "Kommandot misslyckades"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "Vissa kommandon misslyckades. Kontrollera systemloggarna för detaljer."

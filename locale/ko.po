@@ -667,3 +667,9 @@ msgstr "권한이 거부되었습니다. 요청 시 관리자 비밀번호를 �
 #: NEEDS WORK
 msgid "Command failed"
 msgstr "명령 실패"
+
+# 
+# File: comm-xfce-datetime/usr/share/comm-xfce-datetime/comm-xfce-datetime.py, line: 984
+#: NEEDS WORK
+msgid "Some commands failed. Check system logs for details."
+msgstr "일부 명령이 실패했습니다. 자세한 내용은 시스템 로그를 확인하세요."
