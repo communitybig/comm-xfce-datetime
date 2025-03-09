@@ -1,22 +1,32 @@
-import gi
-import os
-import subprocess
-import gettext
+# Standard library imports
 import datetime
-import threading
+import os
 import re
+import subprocess
+import tempfile
+import threading
 import time
 
-gi.require_version("Gtk", "3.0")  # Mudado para GTK3
+# Third-party imports
+import gi
+import gettext
+
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib, Gdk
 
-
-# Style Buttons - Adaptado para GTK3
-css_provider = Gtk.CssProvider()
-css_provider.load_from_data(b"""
+# Application constants
+DEFAULT_WINDOW_SIZE = (450, 400)
+DEFAULT_NTP_SERVER = "pool.ntp.org"
+UI_MARGIN_SMALL = 5
+UI_MARGIN_STANDARD = 10
+CSS_STYLE = b"""
     .blue-button { background: #3584e4; color: white; }
     .red-button { background: #e43e35; color: white; }
-""")
+"""
+
+# Uses the previously defined constant CSS_STYLE
+css_provider = Gtk.CssProvider()
+css_provider.load_from_data(CSS_STYLE)
 Gtk.StyleContext.add_provider_for_screen(
     Gdk.Screen.get_default(),
     css_provider, 
@@ -34,72 +44,88 @@ _ = lang_translations.gettext
 
 class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
     def __init__(self):
+        """Initialize the Date and Time Settings application."""
         super().__init__(title=_("Date and Time Settings"))
-        self.set_default_size(450, 400)  # More compact size
+        self.set_default_size(*DEFAULT_WINDOW_SIZE)
+        
+        # Initialize application state
         self.selected_timezone = None
         self.search_text = ""
         self.timezone_info_cache = {}  # Cache for timezone info
         
-        # Main layout - Usando Gtk.Box com GTK3
+        # Create main layout container
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        self.add(main_box)  # GTK3 usa add em vez de set_child
-
-        # Create tab container
+        self.add(main_box)
+        
+        # Create and add tab container
         self.notebook = Gtk.Notebook()
-        main_box.pack_start(self.notebook, True, True, 0)  # GTK3 usa pack_start
+        main_box.pack_start(self.notebook, True, True, 0)
         
         # Create tab pages
         self.create_date_time_tab()
         self.create_timezone_tab()
         self.create_system_tab()
         
-        # Add status bar at the bottom
-        status_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-        status_box.set_margin_start(10)
-        status_box.set_margin_end(10)
-        status_box.set_margin_top(5)
-        status_box.set_margin_bottom(10)
+        # Add status area at the bottom
+        self._create_status_area(main_box)
         
-        # Show current timezone
+        # Add button bar at the bottom
+        self._create_button_bar(main_box)
+        
+        # Populate timezone list
+        self.populate_timezone_list()
+
+    def _create_status_area(self, main_box):
+        """Create and add the status area to the main box."""
+        status_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=UI_MARGIN_SMALL)
+        status_box.set_margin_start(UI_MARGIN_STANDARD)
+        status_box.set_margin_end(UI_MARGIN_STANDARD)
+        status_box.set_margin_top(UI_MARGIN_SMALL)
+        status_box.set_margin_bottom(UI_MARGIN_STANDARD)
+        
+        # Current timezone label
         self.current_tz_label = Gtk.Label()
         self.update_current_timezone_label()
         self.current_tz_label.set_xalign(0)
-        status_box.pack_start(self.current_tz_label, False, False, 0)  # GTK3
+        status_box.pack_start(self.current_tz_label, False, False, 0)
         
         # Status Label
         self.status_label = Gtk.Label()
         self.status_label.set_markup("<i>" + _("Status: Ready") + "</i>")
         self.status_label.set_xalign(0)
-        status_box.pack_start(self.status_label, False, False, 0)  # GTK3
+        status_box.pack_start(self.status_label, False, False, 0)
         
-        main_box.pack_start(status_box, False, False, 0)  # GTK3
-        
-        # Bottom button bar
-        button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        main_box.pack_start(status_box, False, False, 0)
+
+    def _create_button_bar(self, main_box):
+        """Create and add the button bar to the main box."""
+        button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=UI_MARGIN_STANDARD)
         button_box.set_halign(Gtk.Align.END)
-        button_box.set_margin_start(10)
-        button_box.set_margin_end(10)
-        button_box.set_margin_top(5)
-        button_box.set_margin_bottom(10)
+        button_box.set_margin_start(UI_MARGIN_STANDARD)
+        button_box.set_margin_end(UI_MARGIN_STANDARD)
+        button_box.set_margin_top(UI_MARGIN_SMALL)
+        button_box.set_margin_bottom(UI_MARGIN_STANDARD)
         
+        # Cancel button
         cancel_button = Gtk.Button(label=_("Cancel"))
-        cancel_button.get_style_context().add_class("red-button")  # GTK3
+        cancel_button.get_style_context().add_class("red-button")
         cancel_button.connect("clicked", self.on_cancel_clicked)
         
+        # Synchronize button
         sync_button = Gtk.Button(label=_("Synchronize"))
         sync_button.connect("clicked", self.on_sync_clicked)
         
+        # Apply button
         apply_button = Gtk.Button(label=_("Apply"))
-        apply_button.get_style_context().add_class("blue-button")  # GTK3
+        apply_button.get_style_context().add_class("blue-button")
         apply_button.connect("clicked", self.on_apply_clicked)
         
-        button_box.pack_start(cancel_button, False, False, 0)  # GTK3
+        # Add buttons to button box
+        button_box.pack_start(cancel_button, False, False, 0)
         button_box.pack_start(sync_button, False, False, 0)
         button_box.pack_start(apply_button, False, False, 0)
-        main_box.pack_start(button_box, False, False, 0)  # GTK3
         
-        # Populate timezone list
-        self.populate_timezone_list()
+        main_box.pack_start(button_box, False, False, 0)
 
     def create_date_time_tab(self):
         """Create the Date & Time tab"""
@@ -543,7 +569,10 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
             msg = _("Network time synchronization disabled.")
 
         try:
-            self.run_command(["pkexec", "timedatectl", "set-ntp", new_state])
+            # Execute command with administrative privileges
+            self.run_privileged_commands([
+                ["timedatectl", "set-ntp", new_state]
+            ])
             self.status_label.set_markup("<i>" + _("Status:") + "</i> " + msg)
         except Exception as e:
             GLib.idle_add(
@@ -625,12 +654,56 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
         except Exception as e:
             self.show_message_dialog(Gtk.MessageType.ERROR, str(e))
 
+    def _apply_timezone_to_session(self, timezone):
+        """Apply timezone to current session and update environment."""
+        # Apply TZ to current session
+        os.environ['TZ'] = timezone
+        time.tzset()
+        
+        # Update session environment using dbus for all applications
+        try:
+            self.run_command([
+                "dbus-send", "--session", "--dest=org.freedesktop.DBus", 
+                "--type=method_call", "--print-reply", "/org/freedesktop/DBus", 
+                "org.freedesktop.DBus.UpdateActivationEnvironment", 
+                f"array:string:TZ={timezone}"
+            ])
+        except Exception as e:
+            print(f"Warning: Failed to update session environment: {e}")
+        
+        # Export TZ to XDG runtime dir to ensure new applications have the setting
+        runtime_dir = os.environ.get('XDG_RUNTIME_DIR', f"/run/user/{os.getuid()}")
+        if os.path.exists(runtime_dir):
+            os.makedirs(f"{runtime_dir}/environment.d", exist_ok=True)
+            try:
+                with open(f"{runtime_dir}/environment.d/50-timezone.conf", "w") as f:
+                    f.write(f"TZ={timezone}\n")
+            except Exception as e:
+                print(f"Warning: Failed to write timezone to runtime directory: {e}")
+
+    def _prepare_timezone_commands(self, timezone, date_str, time_str, use_utc):
+        """Prepare commands for system timezone changes."""
+        commands = []
+        
+        # Add command to set hardware clock mode
+        local_rtc = "false" if use_utc else "true"
+        commands.append(["timedatectl", "set-local-rtc", local_rtc])
+        
+        # Add command to set timezone
+        commands.append(["timedatectl", "set-timezone", timezone])
+        
+        # Add command to set date/time if NTP is disabled
+        if not self.ntp_checkbox.get_active():
+            commands.append(["timedatectl", "set-time", f"{date_str} {time_str}"])
+        
+        return commands
+
     def on_confirm_response(
         self, dialog, response,
         date_str, time_str, timezone, use_utc
     ):
         """Apply settings if user confirms in the dialog."""
-        dialog.destroy()  # GTK3
+        dialog.destroy()
         
         if response == Gtk.ResponseType.YES:
             try:
@@ -648,45 +721,12 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
                 while Gtk.events_pending():
                     Gtk.main_iteration()
                 
-                # Set hardware clock mode
-                local_rtc = "false" if use_utc else "true"
-                self.run_command(["pkexec", "timedatectl", "set-local-rtc", local_rtc])
+                # Prepare and execute privileged commands
+                commands = self._prepare_timezone_commands(timezone, date_str, time_str, use_utc)
+                self.run_privileged_commands(commands)
                 
-                # Set timezone
-                self.run_command(["pkexec", "timedatectl", "set-timezone", timezone])
-                
-                # Set time if NTP is disabled
-                if not self.ntp_checkbox.get_active():
-                    self.run_command([
-                        "pkexec", "timedatectl", "set-time",
-                        f"{date_str} {time_str}"
-                    ])
-                
-                # Apply TZ to current session
-                os.environ['TZ'] = timezone
-                time.tzset()
-                
-                # Update session environment using dbus for all applications
-                try:
-                    self.run_command([
-                        "dbus-send", "--session", "--dest=org.freedesktop.DBus", 
-                        "--type=method_call", "--print-reply", "/org/freedesktop/DBus", 
-                        "org.freedesktop.DBus.UpdateActivationEnvironment", 
-                        f"array:string:TZ={timezone}"
-                    ])
-                except Exception:
-                    # Don't interrupt if it fails, just continue
-                    pass
-                
-                # Export TZ to XDG runtime dir to ensure new applications have the setting
-                runtime_dir = os.environ.get('XDG_RUNTIME_DIR', f"/run/user/{os.getuid()}")
-                if os.path.exists(runtime_dir):
-                    try:
-                        with open(f"{runtime_dir}/environment.d/50-timezone.conf", "w") as f:
-                            f.write(f"TZ={timezone}\n")
-                    except Exception:
-                        # Don't interrupt if it fails
-                        pass
+                # Apply timezone to session environment
+                self._apply_timezone_to_session(timezone)
                 
                 # Close progress dialog
                 progress_dialog.destroy()
@@ -698,8 +738,8 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
                 self.show_message_dialog(
                     Gtk.MessageType.INFO, 
                     _("Settings have been applied successfully!\n\n"
-                      "The new timezone is now active for system services and new applications. "
-                      "Some running applications may need to be restarted to use the new timezone settings.")
+                    "The new timezone is now active for system services and new applications. "
+                    "Some running applications may need to be restarted to use the new timezone settings.")
                 )
             except Exception as e:
                 self.show_message_dialog(Gtk.MessageType.ERROR, str(e))
@@ -708,8 +748,41 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
         """Close the application without making any changes."""
         Gtk.main_quit()  # GTK3
 
+    def _get_ntp_sync_command(self):
+        """
+        Determine the appropriate NTP synchronization command for the system.
+        
+        Returns:
+            list: Command to execute for NTP synchronization
+        """
+        # Try to detect which time synchronization system is available
+        try:
+            # Check for systemd-timesyncd
+            result = subprocess.run(
+                ["systemctl", "status", "systemd-timesyncd"],
+                capture_output=True, text=True
+            )
+            if "active" in result.stdout:
+                return ["systemctl", "restart", "systemd-timesyncd"]
+        except Exception:
+            pass
+        
+        try:
+            # Check for chronyd
+            result = subprocess.run(
+                ["systemctl", "status", "chronyd"],
+                capture_output=True, text=True
+            )
+            if "active" in result.stdout:
+                return ["chronyc", "makestep"]
+        except Exception:
+            pass
+        
+        # Default to ntpd if available
+        return ["ntpd", "-gq"]
+
     def on_sync_clicked(self, button):
-        """Synchronize with the Internet using ntpd and display a message."""
+        """Synchronize time with NTP servers and display a message."""
         button.set_sensitive(False)  # Disable button during synchronization
         self.status_label.set_markup(
             "<i>" + _("Status:") + "</i> " + _("Please wait, synchronizing...")
@@ -717,18 +790,17 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
 
         def sync_thread():
             try:
-                process = subprocess.run(
-                    ["pkexec", "ntpd", "-gq"],
-                    capture_output=True,
-                    text=True,
-                    check=True
+                # Get appropriate NTP sync command for this system
+                sync_command = self._get_ntp_sync_command()
+                
+                # Use privileged commands function to execute NTP sync
+                self.run_privileged_commands([sync_command])
+                
+                GLib.idle_add(
+                    lambda: self.status_label.set_markup("<i>" + _("Status:") + "</i> " + _("Synchronization completed successfully!"))
                 )
-                if process.returncode == 0:
-                    GLib.idle_add(
-                        lambda: self.status_label.set_markup("<i>" + _("Status:") + "</i> " + _("Synchronization completed successfully!"))
-                    )
-                    GLib.idle_add(self.set_initial_time)
-                    GLib.idle_add(self.update_current_timezone_label)
+                GLib.idle_add(self.set_initial_time)
+                GLib.idle_add(self.update_current_timezone_label)
             except Exception as e:
                 GLib.idle_add(
                     self.show_message_dialog,
@@ -774,6 +846,161 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
         )
         dialog.connect("response", lambda d, r: d.destroy())  # GTK3
         dialog.show_all()  # GTK3
+        
+    def create_temp_script(self, commands):
+        """
+        Creates a temporary Python script that executes the provided commands with privileges.
+        
+        Args:
+            commands: List of lists, where each inner list is a command to be executed
+        
+        Returns:
+            str: Path to the created temporary script
+        """
+        # Create a temporary file with correct permissions
+        fd, script_path = tempfile.mkstemp(suffix='.py', prefix='datetime_')
+        
+        try:
+            with os.fdopen(fd, 'w') as f:
+                # Write shebang and imports
+                f.write("#!/usr/bin/env python3\n")
+                f.write("import os, sys, subprocess\n\n")
+                
+                # Check for root privileges
+                f.write("if os.geteuid() != 0:\n")
+                f.write("    print('This script must be run as root', file=sys.stderr)\n")
+                f.write("    sys.exit(1)\n\n")
+                
+                # Command execution function
+                f.write("def run_command(cmd):\n")
+                f.write("    try:\n")
+                f.write("        subprocess.run(cmd, check=True)\n")
+                f.write("        print(f'Successfully executed: {\" \".join(cmd)}')\n")
+                f.write("        return True\n")
+                f.write("    except subprocess.CalledProcessError as e:\n")
+                f.write("        print(f'Error executing {\" \".join(cmd)}: {e}', file=sys.stderr)\n")
+                f.write("        return False\n\n")
+                
+                # Setup success tracking
+                f.write("success = True\n\n")
+                
+                # Add each command
+                for cmd in commands:
+                    cmd_str = str(cmd).replace("'", "\"")
+                    f.write(f"success = run_command({cmd_str}) and success\n")
+                
+                # Exit with appropriate status
+                f.write("\nsys.exit(0 if success else 1)\n")
+            
+            # Make the script executable
+            os.chmod(script_path, 0o755)
+            return script_path
+            
+        except Exception as e:
+            # Clean up in case of error
+            try:
+                os.unlink(script_path)
+            except:
+                pass
+            raise RuntimeError(f"Failed to create temporary script: {e}")
+
+    def _create_temp_script_inline(self, commands):
+        """Fallback method to create script without external template."""
+        fd, script_path = tempfile.mkstemp(suffix='.py', prefix='datetime_')
+        
+        with os.fdopen(fd, 'w') as f:
+            f.write("#!/usr/bin/env python3\n")
+            f.write("import os\n")
+            f.write("import sys\n")
+            f.write("import subprocess\n\n")
+            
+            # Check if running as root
+            f.write("if os.geteuid() != 0:\n")
+            f.write("    print('This script must be run as root', file=sys.stderr)\n")
+            f.write("    sys.exit(1)\n\n")
+            
+            # Function to execute commands with error checking
+            f.write("def run_command(cmd):\n")
+            f.write("    try:\n")
+            f.write("        subprocess.run(cmd, check=True)\n")
+            f.write("        print(f'Successfully executed: {\" \".join(cmd)}')\n")
+            f.write("        return True\n")
+            f.write("    except subprocess.CalledProcessError as e:\n")
+            f.write("        print(f'Error executing {\" \".join(cmd)}: {e}', file=sys.stderr)\n")
+            f.write("        return False\n\n")
+            
+            # Add all commands to the script
+            f.write("# Execute all privileged commands\n")
+            f.write("success = True\n")
+            
+            for cmd in commands:
+                cmd_str = str(cmd).replace("'", "\"")
+                f.write(f"success = run_command({cmd_str}) and success\n")
+            
+            f.write("\nsys.exit(0 if success else 1)\n")
+
+        # Make the script executable
+        os.chmod(script_path, 0o755)
+        return script_path
+
+    def run_privileged_commands(self, commands):
+        """
+        Execute multiple commands with administrator privileges using a single authentication.
+        
+        This function creates a temporary script containing all the specified commands,
+        then executes it with administrative privileges using pkexec. This approach
+        ensures the user is only prompted for a password once, regardless of how many
+        privileged operations need to be performed.
+        
+        Args:
+            commands: List of lists, where each inner list is a command to be executed
+                    Example: [["timedatectl", "set-timezone", "America/Sao_Paulo"],
+                            ["timedatectl", "set-time", "2023-01-01 12:00:00"]]
+        
+        Returns:
+            bool: True if all commands were executed successfully
+        
+        Raises:
+            RuntimeError: If authentication fails or command execution fails
+        """
+        script_path = None
+        
+        try:
+            # Create temporary script
+            script_path = self.create_temp_script(commands)
+            
+            # Execute the script with pkexec (single authentication)
+            result = subprocess.run(
+                ["pkexec", script_path],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            
+            # Check if there were any errors in the output
+            if "Error executing" in result.stdout:
+                self.status_label.set_markup(
+                    "<i>" + _("Status:") + "</i> " + 
+                    _("Some commands failed. Check system logs for details.")
+                )
+            
+            return True
+        
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.strip() if e.stderr else str(e)
+            
+            if "polkit" in error_msg.lower() or "authentication" in error_msg.lower():
+                raise RuntimeError(_("Permission denied. Please provide administrator password when prompted."))
+            else:
+                raise RuntimeError(f"{_('Command failed')}: {error_msg}")
+        
+        finally:
+            # Remove the temporary script regardless of the outcome
+            if script_path and os.path.exists(script_path):
+                try:
+                    os.unlink(script_path)
+                except OSError as e:
+                    print(f"Warning: Failed to remove temporary script: {e}")
 
 
 # Adaptado para GTK3 - modelo de aplicativo mais simples
