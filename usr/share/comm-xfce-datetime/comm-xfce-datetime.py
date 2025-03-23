@@ -339,9 +339,9 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
     def get_time_in_timezone(self, timezone):
         """Get the current time in the specified timezone"""
         try:
-            # Use date command to get time in timezone
+            # Use env to set TZ environment variable properly
             result = subprocess.run(
-                ["date", "--date", f"TZ=\"{timezone}\" now", "+%a %H:%M"],
+                ["env", f"TZ={timezone}", "date", "+%a %H:%M"],
                 capture_output=True, text=True, check=True
             )
             return result.stdout.strip()
@@ -355,9 +355,9 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
             return self.timezone_info_cache[timezone]
 
         try:
-            # Get the current offset using date command which is available on most systems
+            # Use env to set TZ environment variable properly
             result = subprocess.run(
-                ["date", "--date", f"TZ=\"{timezone}\" now", "+%z"],
+                ["env", f"TZ={timezone}", "date", "+%z"],
                 capture_output=True, text=True, check=True
             )
             offset_raw = result.stdout.strip()
