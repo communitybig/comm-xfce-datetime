@@ -362,16 +362,23 @@ class DateTimeApp(Gtk.Window):  # Alterado para Gtk.Window
             )
             offset_raw = result.stdout.strip()
 
-            # Convert +0300 format to UTC+3
-            if offset_raw:
-                hours = int(offset_raw[0:3])
-                offset_str = f"UTC{'+' if hours >= 0 else ''}{hours}"
+            # Parse offset properly
+            if offset_raw and len(offset_raw) >= 5:  # Format should be +HHMM or -HHMM
+                sign = offset_raw[0]
+                hours = int(offset_raw[1:3])
+                minutes = int(offset_raw[3:5])
+                
+                # Format the offset string
+                if minutes == 0:
+                    offset_str = f"UTC{sign}{hours}"
+                else:
+                    offset_str = f"UTC{sign}{hours}:{minutes:02d}"
 
                 # Cache the result
                 self.timezone_info_cache[timezone] = offset_str
                 return offset_str
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Error getting timezone offset for {timezone}: {e}")
 
         # Default fallback if we can't determine
         return "UTC"
