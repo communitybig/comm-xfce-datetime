@@ -9,4 +9,3 @@ Exec=comm-xfce-datetime
 Icon=time
 Terminal=false
 Categories=Settings;DesktopSettings;X-XFCE-SettingsDialog;X-XFCE-HardwareSettings;
-OnlyShowIn=XFCE;
